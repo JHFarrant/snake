@@ -14,8 +14,8 @@ var Settings = {
 	FruitPercentage: 0.8,
 	FruitDuration: 5, //Seconds,
 	
-	InsertScoreUrl: 'http://fifteen.altervista.org/insert.php',
-	GetRankingUrl: 'http://fifteen.altervista.org/get.php',
+	InsertScoreUrl: 'https://7d24h0kxw8.execute-api.eu-west-1.amazonaws.com/prod/highscore',
+	GetRankingUrl: 'https://7d24h0kxw8.execute-api.eu-west-1.amazonaws.com/prod/highscore',
 	AddGameCountUrl: 'http://fifteen.altervista.org/add-game.php',
 	GetGameCountUrl: 'http://fifteen.altervista.org/get-game.php'
 	

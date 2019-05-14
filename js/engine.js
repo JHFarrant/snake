@@ -18,6 +18,12 @@ function choose(choices) {
 
 const ricky_dead_audios = ['areyoublind.mp3','passedforklift.mp3','pathetic.mp3','whtudoing.mp3']
 const ricky_select_audios = ['himegareth.mp3','laugh.mp3','ogi.mp3']
+const jack_dead_audios = []
+const jack_eat_audios = []
+const jack_select_audios = []
+const katie_dead_audios = []
+const katie_eat_audios = []
+const katie_select_audios = []
 
 function ricky_dead(){
 	new Audio('../sounds/jack/'+choose(ricky_dead_audios)).play()
@@ -43,9 +49,9 @@ var Game = {
 	Loop: 0, //Main game loop
 	Fruits: [], //Game bonus fruits (loaded in loader.js)
 	PreviousScoreTime: new Date().getTime(), //Last score time, not used
-	LocalStorage: localStorageCheck(), //Check if browser has localstorage enabled
+	LocalStorage: false, //Check if browser has localstorage enabled
 	BorderActive: false, //Set border active or not
-	Jack: false, //Set character to Jack
+	Character: "k",
 	SnakeHead: katieImage,
 	AudioTheme: katieTheme,
 	AudioThemePlayer: null,
@@ -314,7 +320,6 @@ var Game = {
 		}, 100);
 		
 	},
-	
 	Lose: function(){
 		clearInterval(Game.Loop);
 		$('#canvas-overlay').fadeIn('fast');
@@ -326,7 +331,7 @@ var Game = {
 		$('#save').show();
 		Game.AudioThemePlayer.pause();
 		Game.AudioThemePlayer.currentTime = 0;
-		if (Game.Jack == true){
+		if (Game.Character == "j"){
 			ricky_dead()
 		}
 	},
@@ -380,8 +385,6 @@ var Game = {
 		canvas.height = h;
 		setCanvasDPI(canvas, dpi);
 	}
-		
-
 };
 
 if($(window).width() > 500){
@@ -398,12 +401,12 @@ Game.Init();
 //Click on play button
 $(document).on('click', '#overlay-text', function(){
 	Game.Play();
-	addGameCount()
+	// addGameCount()
 });
 
 $(document).on('touchstart', '#overlay-text', function(){
 	Game.Play();
-	addGameCount()
+	// addGameCount()
 });
 
 $(document).on('click', '#save', function(){
@@ -424,8 +427,12 @@ $(document).on('touchstart', '#save-button', function(){
 });
 
 function saveScore(){
-	var score = Game.Score;
+	var score = Game.Score || 0;
+	var time =  Game.Time || "Unknown";
+	var datetime = new Date().toISOString()
+	var character = Game.character || "k";
 	var name = $('#save-name').val();
+	var phone = $('#save-phone').val() || " ";
 	var same = 'false';
 	
 	if(name.length > 0 && name != '' && score > 0){
@@ -443,15 +450,29 @@ function saveScore(){
 				console.log('New user, insert score');
 			}
 		}
-		
+		var highscore = {"phone":phone,
+					    "score":score,
+					    "player": name,
+					    "character": character,
+					    "datetime": datetime,
+					    "time": time
+						};
 		//ajax call
 		$.ajax({
-				url: Settings.InsertScoreUrl + '?name=' + name +'&score=' + score + '&same=' + same,
-				type: 'GET',
-				dataType: 'html',
+				url: Settings.InsertScoreUrl,
+				type: 'POST',
+				contentType: "application/json; charset=utf-8",
+				dataType: 'json',
+				data: JSON.stringify(highscore),
 				crossDomain:true,
 				success: function(data){
-					console.log('Score added correctly!');
+					console.log('Score submitted successfully!');
+					alert("Score submitted successfully!");
+					loadRanking();
+				},
+				error: function(data){
+					console.log('Failed to submit score');
+					alert("Failed to submit score :(");
 					loadRanking();
 				}
 			});

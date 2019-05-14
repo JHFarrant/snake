@@ -351,6 +351,7 @@ ul#standing-list {
 #standing-list li {
     background-color: rgba(225, 227, 127, 0.24);
     padding: 5px 10px;
+    height: 34px;
     font-size: 20pt;
     font-weight: normal;
     border-radius: 4px;
@@ -360,15 +361,30 @@ ul#standing-list {
 
 span.position {
     display: inline-block;
-    width: 10%;
+    width: 5%;
     color: rgb(254, 244, 161);
+}
+
+img.logo {
+    display: inline-block;
+    width: 5%;
+    max-height: 34px;
+    object-fit: cover;
+    vertical-align: sub;
 }
 
 span.name {
     display: inline-block;
-    width: 70%;
+    width: 39%;
+    padding-left: 1%;
 }
 
+span.time {
+    display: inline-block;
+    width: 30%;
+    text-align: right;
+    color: rgba(143, 0, 0, 0.72);
+}
 span.score {
     display: inline-block;
     width: 16%;

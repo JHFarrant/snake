@@ -14,8 +14,8 @@ $(document).ready(function(e) {
 	});
 	
 	$('#jk-selector').change(function(){
-		Game.Jack = $(this).prop("checked");
-		if(Game.Jack == true){
+		if($(this).prop("checked") == true){
+			Game.character = "j"
 			$('body#main').removeClass("katie");
 			$('body#main').addClass("jack");
 			Game.SnakeHead = jackImage
@@ -23,6 +23,7 @@ $(document).ready(function(e) {
 			Game.AudioThemePlayer = null
 			ricky_select()
 		}else{
+			Game.character = "k"
 			$('body#main').addClass("jack");
 			$('body#main').addClass("katie");
 			Game.SnakeHead = katieImage
@@ -34,7 +35,7 @@ $(document).ready(function(e) {
 	});
 	
 	loadRanking();
-	getGameCount()
+	// getGameCount()
 	
 });
 
@@ -50,6 +51,37 @@ function localStorageCheck(){
     }
 }
 
+var populateRankings = function(data){
+		console.log('Ranking retrieved!');
+		$('#standings-loader').hide();
+		$('#standing-list').empty();
+		data["highscores"].sort((a, b) => (a.score < b.score) ? 1 : -1)
+		for(var i in data["highscores"]){
+			var li = $('<li></li>');
+			var position = $('<span></span>')
+				.addClass('position')
+				.text((parseInt(i) + 1));
+			var logo = $('<img></img>')
+				.addClass('logo');
+			if(data["highscores"][i].character == "k"){
+					logo.attr("src","../img/KatieA2.png");
+				}else if(data["highscores"][i].character == "j"){
+					logo.attr("src","../img/JackS.png");
+				}
+			var name = $('<span></span>')
+				.addClass('name')
+				.text(data["highscores"][i].player);
+			var time = $('<span></span>')
+				.addClass('time')
+				.text(data["highscores"][i].time);
+			var score = $('<span></span>')
+				.addClass('score')
+				.text(data["highscores"][i].score);
+			li.append(position).append(logo).append(name).append(time).append(score);
+			$('#standing-list').append(li);	
+		}
+	} 
+
 //Loads ranking list from server
 function loadRanking(){	
 	$('#standings-loader').show();
@@ -57,26 +89,9 @@ function loadRanking(){
 			url: Settings.GetRankingUrl,
 			type: 'GET',
 			dataType: 'json',
-			crossDomain:true,
-			success: function(data){
-				console.log('Ranking retrieved!');
-				$('#standings-loader').hide();
-				$('#standing-list').empty();
-				for(var rank in data){
-					var li = $('<li></li>');
-					var position = $('<span></span>')
-						.addClass('position')
-						.text(data[rank].position);
-					var name = $('<span></span>')
-						.addClass('name')
-						.text(data[rank].name);
-					var score = $('<span></span>')
-						.addClass('score')
-						.text(data[rank].score);
-					li.append(position).append(name).append(score);
-					$('#standing-list').append(li);	
-				}
-			}
+			crossDomain: true,
+			success:populateRankings,
+			error: console.log
 		});	
 }
 
