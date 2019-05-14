@@ -4,6 +4,29 @@ var width = canvas.width;
 var height = canvas.height;
 var rect = canvas.getBoundingClientRect();
 
+var jackImage = new Image();
+jackImage.src = "../img/JackS.png";
+var katieImage = new Image();
+katieImage.src = "../img/KatieA.png";
+var jackTheme = '../sounds/jack/theme.mp3';
+var katieTheme = '../sounds/katie/theme.mp3';
+
+function choose(choices) {
+  var index = Math.floor(Math.random() * choices.length);
+  return choices[index];
+}
+
+const ricky_dead_audios = ['areyoublind.mp3','passedforklift.mp3','pathetic.mp3','whtudoing.mp3']
+const ricky_select_audios = ['himegareth.mp3','laugh.mp3','ogi.mp3']
+
+function ricky_dead(){
+	new Audio('../sounds/jack/'+choose(ricky_dead_audios)).play()
+}
+function ricky_select(){
+	new Audio('../sounds/jack/'+choose(ricky_select_audios)).play()
+}
+
+
 var Game = {
 	
 	//Games variables
@@ -22,7 +45,11 @@ var Game = {
 	PreviousScoreTime: new Date().getTime(), //Last score time, not used
 	LocalStorage: localStorageCheck(), //Check if browser has localstorage enabled
 	BorderActive: false, //Set border active or not
-	
+	Jack: false, //Set character to Jack
+	SnakeHead: katieImage,
+	AudioTheme: katieTheme,
+	AudioThemePlayer: null,
+
 	//Games methods
 	Init: function(){
 		Game.Direction = 1;
@@ -61,7 +88,11 @@ var Game = {
 		Game.Paused = false;
 		Game.New = false;
 		$("#speed-fader").prop('disabled', true);
-		$("#border-selector").prop('disabled', true);
+		$("#jk-selector").prop('disabled', true);
+		if(Game.AudioThemePlayer == null){
+			Game.AudioThemePlayer = new Audio(Game.AudioTheme)
+		}
+		Game.AudioThemePlayer.play()
 	},
 	
 	Pause: function(){
@@ -69,11 +100,12 @@ var Game = {
 		$('#canvas-overlay').fadeIn('fast');
 		$('#overlay-text').text('Paused');
 		Game.Paused = true;
+		Game.AudioThemePlayer.pause()
 	},
 	
 	CreateSnake: function(){
 		Game.Snake = [];
-		for(var i = Settings.SnakeLenght - 1; i >= 0; i--) {
+		for(var i = Settings.SnakeLength - 1; i >= 0; i--) {
 			Game.Snake.push({x: i + Settings.InitialPosition.x, y: Settings.InitialPosition.y});
 		}
 		Game.DrawSnake();
@@ -82,7 +114,12 @@ var Game = {
 	DrawSnake: function(){
 		for(var i = 0; i < Game.Snake.length; i++){
 			var c = Game.Snake[i];
-			Game.DrawPoint(c.x, c.y);
+			if(i == 0){
+				Game.DrawHead(c.x, c.y);
+			}else{
+				Game.DrawPoint(c.x, c.y);
+			}
+			
 		}
 	},
 	
@@ -228,14 +265,30 @@ var Game = {
 		return false;
 	},
 	
+	DrawHead: function(x, y) {
+		var cw = Settings.BlockSize;
+		// ctx.fillStyle = Settings.BlockColor;
+
+		// ctx.shadowBlur = 5;
+		// ctx.shadowOffsetX = 3;  
+		// ctx.shadowOffsetY = 3;  
+		// ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+		// ctx.roundRect(x * cw, y * cw, cw - 1, cw - 1, 3).fill();
+		ctx.zindex = 1000;
+		ctx.drawImage(Game.SnakeHead,x * cw - (0.5 * cw), y * cw - (0.5 * cw), cw * 2, cw * 2);  
+	},
+
 	DrawPoint: function(x, y) {
 		var cw = Settings.BlockSize;
 		ctx.fillStyle = Settings.BlockColor;
+		ctx.globalCompositeOperation='destination-over';
+
 		ctx.shadowBlur = 5;
 		ctx.shadowOffsetX = 3;  
 		ctx.shadowOffsetY = 3;  
 		ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-		ctx.roundRect(x * cw, y * cw, cw - 1, cw - 1, 3).fill();
+		ctx.roundRect(x * cw, y * cw, cw - 1, cw - 1, 5).fill();
+		// ctx.drawImage(jackImage,x * cw, y * cw, cw - 1, cw - 1);  
 	},
 	
 	DrawCircle: function(x, y){
@@ -269,8 +322,13 @@ var Game = {
 		Game.Paused = true;
 		Game.New = true;
 		$("#speed-fader").prop('disabled', false);
-		$("#border-selector").prop('disabled', false);
+		$("#jk-selector").prop('disabled', false);
 		$('#save').show();
+		Game.AudioThemePlayer.pause();
+		Game.AudioThemePlayer.currentTime = 0;
+		if (Game.Jack == true){
+			ricky_dead()
+		}
 	},
 	
 	AddBonus: function(){

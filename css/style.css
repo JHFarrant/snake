@@ -19,6 +19,23 @@ body#main {
     -o-background-size: cover;
 }
 
+body#main.jack{
+    background: url(../img/backgroundJack.jpeg) no-repeat bottom center fixed;
+    background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+body#main.katie{
+    background: url(../img/backgroundKatie.jpeg) no-repeat bottom center fixed;
+    background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
 div#container {
 	display: none;
     width: 75%;
@@ -152,7 +169,7 @@ div#game-container {
     position: relative;
 }
 
-div#score-container, div#speed-container, div#border-selection-container {
+div#score-container, div#speed-container, div#jk-selection-container {
     position: absolute;
     top: 0;
     left: 1em;
@@ -162,8 +179,8 @@ div#score-container, div#speed-container, div#border-selection-container {
     text-align: center;
 }
 
-div#border-selection-container {
-    top: 300px;
+div#jk-selection-container {
+    top: 100px;
 }
 
 div#score-text {
@@ -171,7 +188,7 @@ div#score-text {
     font-size: 3em;
 }
 
-div#speed-text, div#border-text {
+div#speed-text, div#jk-text {
     font-size: 2em;
 }
 
@@ -372,11 +389,11 @@ section#instructions p {
     color: white;
 }
 
-#border-selection-container input:empty{
+#jk-selection-container input:empty{
 	margin-left: -999px;
 }
 
-#border-selection-container input:empty ~ label{
+#jk-selection-container input:empty ~ label{
 	position: relative;
 	float: left;
 	line-height: 1.6em;
@@ -390,8 +407,8 @@ section#instructions p {
     color: rgba(255, 255, 255, 0.54);
 }
 
-#border-selection-container input:empty ~ label:before, 
-#border-selection-container input:empty ~ label:after {
+#jk-selection-container input:empty ~ label:before, 
+#jk-selection-container input:empty ~ label:after {
   position: absolute;
 	display: block;
   content: ' ';
@@ -399,18 +416,31 @@ section#instructions p {
   transition: all 200ms ease-in;
 }
 
-#border-selection-container input:empty ~ label:before {
+#jk-selection-container input:empty ~ label:before {
     top: 11px;
-    left: 80px;
+    left: 40px;
     width: 44px;
     height: 10px;
     background-color: rgba(90, 90, 90, 0.52);
     border-radius: 8px;
 }
 
+#jk-selector-jack-text{
+        position: relative;
+        float: right;
+        line-height: 1.6em;
+         cursor: pointer;
+         -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          margin-top: 0.3em;
+         font-size: 1.3em;
+        color: rgba(255, 255, 255, 0.54);
+}
 input.switch:empty ~ label:after {
     top: 8px;
-    left: 77px;
+    left: 37px;
     bottom: 0.1em;
     margin-left: 0.1em;
     background-color: #fff;
@@ -421,12 +451,12 @@ input.switch:empty ~ label:after {
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.35)
 }
 
-#border-selection-container input:checked ~ label:before{
+#jk-selection-container input:checked ~ label:before{
 	background-color: rgba(255, 239, 112, 0.56);
 }
 
-#border-selection-container input:checked ~ label:after{
-	    left: 107px;
+#jk-selection-container input:checked ~ label:after{
+    left: 67px;
     background-color: rgb(255, 239, 112);
 }
 
@@ -461,7 +491,7 @@ p#play-counter {
 		max-height: 360px;
 	}
 	
-	div#score-container, div#speed-container, div#border-selection-container {
+	div#score-container, div#speed-container, div#jk-selection-container {
 		position: initial;
 		display: inline-block;
 		margin-left: 2em;

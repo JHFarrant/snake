@@ -22,10 +22,10 @@
 		<link href="css/style.css" rel="stylesheet"/>
 		<link href="css/normalize.css" rel="stylesheet"/>    
 	</head>
-	<body id="main">
+	<body id="main" class="katie">
     	<!-- Loading screen -->
         <div id="loader">
-          <h1 id="loader-title">Snake</h1>
+          <h1 id="loader-title">Wedding Snake</h1>
           <p id="loading-text">Loading...</p>
           <div id="bar-container">
             <div id="bar"></div>
@@ -36,10 +36,8 @@
         <!-- Main container -->
         <div id="container">
            <!-- Page header -->
-        	<a href="http://lorecioni.github.io/snake/">
-            <h1>Snake</h1>
-           </a>
-           <h3>A pure HTML5 classic game</h3>
+            <h1>Wedding Snake</h1>
+           <h3>Potatoe vs Jackie</h3>
            <!-- end header -->
            
            <div id="game-container">
@@ -78,7 +76,7 @@
                  </div>   
                     
                <!-- Speed selection -->
-               <div id="speed-container">
+               <div id="speed-container" style="display: None;">
                  <div id="speed-text">Speed</div>
                    <input type="range" min="5" max="20" value="12" id="speed-fader">
                    <div id="speed-labels">  
@@ -88,15 +86,22 @@
                </div>
                
                <!-- Border selection -->
-               <div id="border-selection-container">
+               <div id="border-selection-container" style="display: None;">
                  <div id="border-text">Borders</div>
-                 	<input type="checkbox" id="border-selector" name="border-selector" class="switch" />
+                 	<input type="checkbox" id="border-selector" name="border-selector" class="switch" value="checked"/>
 	              <label for="border-selector">Active</label>
                </div>
+               <!-- JK selection -->
+               <div id="jk-selection-container">
+                 <div id="jk-text">Character</div>
+                  <input type="checkbox" id="jk-selector" name="jk-selector" class="switch" />
+                <label for="jk-selector">Katie</label>
+                <div id="jk-selector-jack-text">Jack</div>
+               </div>
+
                
            </div>
-           <a href="https://play.google.com/store/apps/details?id=com.lorenzocioni.snake">
-           <img src="https://4.bp.blogspot.com/-GKjg1s2iU_Q/Vv5Tp4XWwSI/AAAAAAAACSE/VNuyM7jjsokp69WGolS1jNN7-uNtbnyLg/s200/google-play-badge.png" alt="Google Play Badge" id="gplay"></a>
+           
            
    			 <!-- Ranking list -->
             <section>
@@ -118,22 +123,13 @@
           
         	<!-- Footer -->
            <footer>
-           <p id="play-counter"></p>
-           <p>Made by <a href="http://github.com/lorecioni" target="_blank">Lorenzo Cioni</a></p> 
-             <div id="social">
-               <!-- Facebook like button -->
-               <div class="fb-like" data-href="http://lorecioni.github.io/snake/" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
-               <!-- Twitter follow button -->
-               <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://lorecioni.github.io/snake/" data-size="large">Tweet</a>
-                </div>
+              <img src="../img/backgroundJack.jpeg" style="display: none;">
+              <img src="../img/backgroundKatie.jpeg" style="display: none;">
            </footer>
            <!-- end Footer -->
 		</div>
        <!-- end container -->
         
-       <!-- Github ribbon -->
-       <a href="https://github.com/lorecioni/snake" target="_blank" class="github-ribbon">
-			<img src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub">
 		</a>
 
        <!-- Load scripts -->
@@ -146,37 +142,5 @@
 		<script src="js/engine.js"></script>
        <script src="js/loader.js"></script>
         
-        <!-- Facebook connection -->
-        <div id="fb-root"></div>
-		<script>
-		  window.fbAsyncInit = function() {
-			FB.init({
-			  appId      : '744974672275726',
-			  xfbml      : true,
-			  version    : 'v2.5'
-			});
-		  };
-		
-		  (function(d, s, id){
-			 var js, fjs = d.getElementsByTagName(s)[0];
-			 if (d.getElementById(id)) {return;}
-			 js = d.createElement(s); js.id = id;
-			 js.src = "//connect.facebook.net/en_US/sdk.js";
-			 fjs.parentNode.insertBefore(js, fjs);
-		   }(document, 'script', 'facebook-jssdk'));
-		</script>
-        
-        <!-- Twitter connection -->
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        
-        <!-- Analytics -->
-        <script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		  ga('create', 'UA-30452652-10', 'auto');
-		  ga('send', 'pageview');	
-		</script>
 	</body>
 </html>

@@ -13,8 +13,24 @@ $(document).ready(function(e) {
 		Settings.FPS = $(this).val();
 	});
 	
-	$('#border-selector').change(function(){
-		Game.BorderActive = $(this).prop("checked");
+	$('#jk-selector').change(function(){
+		Game.Jack = $(this).prop("checked");
+		if(Game.Jack == true){
+			$('body#main').removeClass("katie");
+			$('body#main').addClass("jack");
+			Game.SnakeHead = jackImage
+			Game.AudioTheme = jackTheme
+			Game.AudioThemePlayer = null
+			ricky_select()
+		}else{
+			$('body#main').addClass("jack");
+			$('body#main').addClass("katie");
+			Game.SnakeHead = katieImage
+			Game.AudioTheme = katieTheme
+			Game.AudioThemePlayer = null
+		}
+		Game.Update()
+		Game.CreateSnake()
 	});
 	
 	loadRanking();
