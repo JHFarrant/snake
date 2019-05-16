@@ -281,7 +281,7 @@ var Game = {
 		// ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
 		// ctx.roundRect(x * cw, y * cw, cw - 1, cw - 1, 3).fill();
 		ctx.zindex = 1000;
-		ctx.drawImage(Game.SnakeHead,x * cw - (0.5 * cw), y * cw - (0.5 * cw), cw * 2, cw * 2);  
+		ctx.drawImage(Game.SnakeHead,x * cw - (1.5 * cw), y * cw - (1.5 * cw), cw * 4, cw * 4);  
 	},
 
 	DrawPoint: function(x, y) {
@@ -459,11 +459,17 @@ function saveScore(){
 						};
 		//ajax call
 		$.ajax({
+<<<<<<< Updated upstream
 				url: Settings.InsertScoreUrl,
 				type: 'POST',
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				data: JSON.stringify(highscore),
+=======
+				url: Settings.InsertScoreUrl + '?name=' + name +'&score=' + score + '&same=' + same +'&phone=' + phone,
+				type: 'GET',
+				dataType: 'html',
+>>>>>>> Stashed changes
 				crossDomain:true,
 				success: function(data){
 					console.log('Score submitted successfully!');

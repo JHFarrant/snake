@@ -8,6 +8,12 @@
 	padding: 0;
 }
 
+img.character-logo {
+    height: 50px;
+    background: pink;
+    border-radius: 25px;
+}
+
 body#main {
 	font-family: 'Rancho', sans-serif;
 	font-size: 16px;
@@ -552,3 +558,5 @@ p#play-counter {
 		width: 100% !important;
 	}
 }
+
+
