@@ -506,7 +506,7 @@ $(document).on('touchstart', '#save-button', function(){
 
 function saveScore(){
 	var score = Game.Score || 0;
-	var time =  Math.floor(Game.SecondsElapsed/ 60)+ " Min" + Game.SecondsElapsed % 60 + " Sec" || "Unknown";
+	var time =  Math.floor(Game.SecondsElapsed/ 60)+ "Min" + Game.SecondsElapsed % 60 + "Sec" || "Unknown";
 	var datetime = new Date().toISOString()
 	var character = Game.Character || "k";
 	var name = $('#save-name').val();

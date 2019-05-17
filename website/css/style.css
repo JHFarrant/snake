@@ -382,19 +382,19 @@ img.logo {
 
 span.name {
     display: inline-block;
-    width: 39%;
+    width: 38%;
     padding-left: 1%;
 }
 
 span.time {
     display: inline-block;
-    width: 30%;
+    width: 28%;
     text-align: right;
     color: rgba(143, 0, 0, 0.72);
 }
 span.score {
     display: inline-block;
-    width: 16%;
+    width: 15%;
     text-align: right;
 	color: rgba(143, 0, 0, 0.72);
 }
