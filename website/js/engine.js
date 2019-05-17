@@ -18,12 +18,12 @@ function choose(choices) {
 
 const ricky_dead_audios = ['areyoublind.mp3','passedforklift.mp3','pathetic.mp3','whtudoing.mp3']
 const ricky_select_audios = ['himegareth.mp3','laugh.mp3','ogi.mp3']
-const jack_dead_audios = []
-const jack_eat_audios = []
-const jack_select_audios = []
-const katie_dead_audios = []
-const katie_eat_audios = []
-const katie_select_audios = []
+const jack_dead_audios = ['j-die-1.opus','j-die-2.opus','j-die-3.opus','j-die-4.opus']
+const jack_eat_audios = ['j-eat-1.opus','j-eat-2.opus','j-eat-3.opus','j-eat-4.opus','j-eat-5.opus','j-eat-6.opus']
+const jack_select_audios = ['j-select-1.opus','j-select-2.opus','j-select-3.opus','j-select-4.opus']
+const katie_dead_audios = ['k-die-1.opus','k-die-2.opus','k-die-3.opus','k-die-4.opus']
+const katie_eat_audios = ['k-eat-1.opus','k-eat-2.opus','k-eat-3.opus','k-eat-4.opus']
+const katie_select_audios = ['k-select-1.opus','k-select-2.opus','k-select-3.opus']
 
 function ricky_dead(){
 	new Audio('../sounds/jack/'+choose(ricky_dead_audios)).play()
@@ -47,6 +47,8 @@ var Game = {
 	Food: {}, //Food struct
 	Bonus: {}, //Game bonuses
 	Loop: 0, //Main game loop
+	SpeedLoop: 0,
+	ClockLoop: 0,
 	Fruits: [], //Game bonus fruits (loaded in loader.js)
 	PreviousScoreTime: new Date().getTime(), //Last score time, not used
 	LocalStorage: false, //Check if browser has localstorage enabled
@@ -55,6 +57,10 @@ var Game = {
 	SnakeHead: katieImage,
 	AudioTheme: katieTheme,
 	AudioThemePlayer: null,
+	Speed: 1,
+	FPS: Settings.FPS,
+	SecondsElapsed: 0,
+	IncreaseSpeedInterval: 30,
 
 	//Games methods
 	Init: function(){
@@ -62,10 +68,16 @@ var Game = {
 		Game.PreviousDirection = 1;
 		Game.PreviousArrowDirection = 1;
 		Game.Score = 0;
+		Game.Speed = 1;
+		Game.FPS = Settings.FPS;
+		Game.SecondsElapsed = 0
 		Game.CreateFood();
 		Game.CreateSnake();
 		Game.Bonus = {};
+		$('#speed-num').text(Game.Speed.toString()+"x");
 		$('#score-num').text(Game.Score.toString());
+		$('#clock-text').text(Game.Score.toString()+" Sec");
+
 	},
 	
 	Tick: function(){
@@ -90,7 +102,9 @@ var Game = {
 		}
 		$('#canvas-overlay').fadeOut('fast');
 		$('#save').hide();
-		Game.Loop = setInterval(Game.Tick, 1000/Settings.FPS);	
+		Game.Loop = setInterval(Game.Tick, 1000/Game.FPS);
+		Game.ClockLoop = setInterval(Game.UpdateClock, 1000);
+		Game.SpeedLoop = setTimeout(Game.IncreaseSpeed, 1000 * (Game.IncreaseSpeedInterval - (Game.SecondsElapsed % Game.IncreaseSpeedInterval)));	
 		Game.Paused = false;
 		Game.New = false;
 		$("#speed-fader").prop('disabled', true);
@@ -100,9 +114,25 @@ var Game = {
 		}
 		Game.AudioThemePlayer.play()
 	},
-	
+	IncreaseSpeed: function(){
+		Game.ChangeSpeed(Game.Speed + 0.2)
+		Game.SpeedLoop = setTimeout(Game.IncreaseSpeed, 1000 * Game.IncreaseSpeedInterval);	
+	},
+	ChangeSpeed: function(speed){
+		Game.Speed = Math.ceil(speed * 10)/10;
+		$('#speed-num').text(Game.Speed.toString()+"x");
+		Game.FPS = Settings.FPS * Game.Speed;
+		clearInterval(Game.Loop);
+		Game.Loop = setInterval(Game.Tick, 1000/Game.FPS);
+	},
+	UpdateClock: function(){
+		Game.SecondsElapsed++;
+		$('#clock-text').text(Game.SecondsElapsed.toString()+" Sec");
+	},
 	Pause: function(){
 		clearInterval(Game.Loop);
+		clearInterval(Game.SpeedLoop);
+		clearInterval(Game.ClockLoop);
 		$('#canvas-overlay').fadeIn('fast');
 		$('#overlay-text').text('Paused');
 		Game.Paused = true;
@@ -221,15 +251,17 @@ var Game = {
 				value = Settings.ScoreValueBorder;
 			}
 			
-			if(Settings.FPS < 10){
-				value += Math.floor(Settings.FPS * 0.1);
-			} else if(Settings.FPS >= 10 && Settings.FPS < 15){
-				value += Math.floor(Settings.FPS * 0.3);
-			} else if(Settings.FPS >= 15 && Settings.FPS < 20){
-				value += Math.floor(Settings.FPS * 0.5);
-			} else if(Settings.FPS == 20){
-				value += Math.floor(Settings.FPS * 0.7);
-			}
+			// if(Game.FPS < 10){
+			// 	value += Math.floor(Game.FPS * 0.1);
+			// } else if(Game.FPS >= 10 && Game.FPS < 15){
+			// 	value += Math.floor(Game.FPS * 0.3);
+			// } else if(Game.FPS >= 15 && Game.FPS < 20){
+			// 	value += Math.floor(Game.FPS * 0.5);
+			// } else if(Game.FPS == 20){
+			// 	value += Math.floor(Game.FPS * 0.7);
+			// }
+			value = Math.ceil(value * Game.Speed)
+
 			Game.AddScore(value);
 			//Create new food
 			Game.CreateFood();
@@ -281,7 +313,7 @@ var Game = {
 		// ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
 		// ctx.roundRect(x * cw, y * cw, cw - 1, cw - 1, 3).fill();
 		ctx.zindex = 1000;
-		ctx.drawImage(Game.SnakeHead,x * cw - (1.5 * cw), y * cw - (1.5 * cw), cw * 4, cw * 4);  
+		ctx.drawImage(Game.SnakeHead,x * cw - (1 * cw), y * cw - (1 * cw), cw * 3, cw * 3);  
 	},
 
 	DrawPoint: function(x, y) {
@@ -306,6 +338,7 @@ var Game = {
 	},
 	
 	AddScore: function(value){
+		Game.AudioEat()
 		Game.Score += value;
 		$('#score-num').text(Game.Score.toString());	
 		var msg = $('<div></div>')
@@ -322,6 +355,8 @@ var Game = {
 	},
 	Lose: function(){
 		clearInterval(Game.Loop);
+		clearInterval(Game.SpeedLoop);
+		clearInterval(Game.ClockLoop);
 		$('#canvas-overlay').fadeIn('fast');
 		$('#overlay-text').html('Try Again!<br><span class="small">Press ENTER to restart</span>');
 		Game.Paused = true;
@@ -331,9 +366,7 @@ var Game = {
 		$('#save').show();
 		Game.AudioThemePlayer.pause();
 		Game.AudioThemePlayer.currentTime = 0;
-		if (Game.Character == "j"){
-			ricky_dead()
-		}
+		Game.AudioDead()
 	},
 	
 	AddBonus: function(){
@@ -369,7 +402,52 @@ var Game = {
 		}
 		
 	},
-	
+	SelectCharacter: function(character) {
+		Game.Character = character
+		switch(character) {
+		  case 'k':
+		    Game.SnakeHead = katieImage
+			Game.AudioTheme = katieTheme
+			Game.AudioThemePlayer = null
+		    break;
+		  case 'j':
+		    Game.SnakeHead = jackImage
+			Game.AudioTheme = jackTheme
+			Game.AudioThemePlayer = null
+		    break;
+		}
+		Game.AudioPlayerSelect()
+	},
+	AudioDead: function(){
+		switch(Game.Character) {
+		  case 'k':
+		    new Audio('../sounds/katie/'+choose(katie_dead_audios)).play()
+		    break;
+		  case 'j':
+		    new Audio('../sounds/jack/'+choose(jack_dead_audios)).play()
+		    break;
+		}
+	},
+	AudioPlayerSelect: function(){
+		switch(Game.Character) {
+		  case 'k':
+		    new Audio('../sounds/katie/'+choose(katie_select_audios)).play()
+		    break;
+		  case 'j':
+		    new Audio('../sounds/jack/'+choose(jack_select_audios)).play()
+		    break;
+		}
+	},
+	AudioEat: function(){
+		switch(Game.Character) {
+		  case 'k':
+		    new Audio('../sounds/katie/'+choose(katie_eat_audios)).play()
+		    break;
+		  case 'j':
+		    new Audio('../sounds/jack/'+choose(jack_eat_audios)).play()
+		    break;
+		}
+	},
 	DrawFruit: function(){
 		if(Game.Bonus.active){
 			var cw = Settings.BlockSize;
@@ -428,9 +506,9 @@ $(document).on('touchstart', '#save-button', function(){
 
 function saveScore(){
 	var score = Game.Score || 0;
-	var time =  Game.Time || "Unknown";
+	var time =  Math.floor(Game.SecondsElapsed/ 60)+ " Min" + Game.SecondsElapsed % 60 + " Sec" || "Unknown";
 	var datetime = new Date().toISOString()
-	var character = Game.character || "k";
+	var character = Game.Character || "k";
 	var name = $('#save-name').val();
 	var phone = $('#save-phone').val() || " ";
 	var same = 'false';
@@ -459,17 +537,11 @@ function saveScore(){
 						};
 		//ajax call
 		$.ajax({
-<<<<<<< Updated upstream
 				url: Settings.InsertScoreUrl,
 				type: 'POST',
 				contentType: "application/json; charset=utf-8",
 				dataType: 'json',
 				data: JSON.stringify(highscore),
-=======
-				url: Settings.InsertScoreUrl + '?name=' + name +'&score=' + score + '&same=' + same +'&phone=' + phone,
-				type: 'GET',
-				dataType: 'html',
->>>>>>> Stashed changes
 				crossDomain:true,
 				success: function(data){
 					console.log('Score submitted successfully!');

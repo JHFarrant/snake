@@ -77,16 +77,13 @@
                  <div id="score-container">
                    <div id="score-text">Score</div>
                    <div id="score-num">0</div>
+                   <div id="clock-text">0 Sec</div>
                  </div>   
                     
                <!-- Speed selection -->
-               <div id="speed-container" style="display: None;">
+               <div id="speed-container">
                  <div id="speed-text">Speed</div>
-                   <input type="range" min="5" max="20" value="12" id="speed-fader">
-                   <div id="speed-labels">  
-                     <span id="speed-min">Min</span>
-                     <span id="speed-max">Max</span>
-                   </div>
+                   <div id="speed-num">1</div>
                </div>
                
                <!-- Border selection -->
@@ -121,8 +118,8 @@
             <!-- Instructions -->
             <section id="instructions">
            	<h2>Instructions</h2>
-            	<p>Select speed and play! Use arrow keys to move, ESC or P to pause game. The lower the speed, the less are the points you can get. Don't miss the fruits!<br>
-                If you collide with borders you will lose the game, but you can choose to activate borders!</p>
+            	<p>Select a character and play! Use arrow keys to move, ESC or P to pause game. The lower the speed, the less points you get. The speed increases every 30 seconds. Don't miss the fruits!<br>
+                If you collide with borders or your own tail you will lose the game. Enter your name to submit your score to the global leaderboard.</p>
    		    </section>
           
         	<!-- Footer -->

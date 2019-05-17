@@ -9,26 +9,19 @@ $(document).ready(function(e) {
 		$('#loader').css('height', height);
 	});
 	
-	$('#speed-fader').change(function(){
-		Settings.FPS = $(this).val();
-	});
+	// $('#speed-fader').change(function(){
+	// 	Settings.FPS = $(this).val();
+	// });
 	
 	$('#jk-selector').change(function(){
 		if($(this).prop("checked") == true){
-			Game.character = "j"
 			$('body#main').removeClass("katie");
 			$('body#main').addClass("jack");
-			Game.SnakeHead = jackImage
-			Game.AudioTheme = jackTheme
-			Game.AudioThemePlayer = null
-			ricky_select()
+			Game.SelectCharacter('j')
 		}else{
-			Game.character = "k"
 			$('body#main').addClass("jack");
 			$('body#main').addClass("katie");
-			Game.SnakeHead = katieImage
-			Game.AudioTheme = katieTheme
-			Game.AudioThemePlayer = null
+			Game.SelectCharacter('k')
 		}
 		Game.Update()
 		Game.CreateSnake()

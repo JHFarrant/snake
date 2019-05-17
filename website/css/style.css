@@ -186,7 +186,7 @@ div#score-container, div#speed-container, div#jk-selection-container {
 }
 
 div#jk-selection-container {
-    top: 100px;
+    top: 250px;
 }
 
 div#score-text {
@@ -195,10 +195,11 @@ div#score-text {
 }
 
 div#speed-text, div#jk-text {
-    font-size: 2em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.59);
+    font-size: 3em;
 }
 
-div#score-num {
+div#score-num, div#speed-num, div#clock-text {
     font-size: 2em;
 }
 
