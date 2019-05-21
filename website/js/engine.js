@@ -111,6 +111,7 @@ var Game = {
 		$("#jk-selector").prop('disabled', true);
 		if(Game.AudioThemePlayer == null){
 			Game.AudioThemePlayer = new Audio(Game.AudioTheme)
+			Game.AudioThemePlayer.loop = true;
 		}
 		Game.AudioThemePlayer.play()
 	},

@@ -10,8 +10,10 @@
 
 img.character-logo {
     height: 50px;
+    width: 50px;
     background: pink;
     border-radius: 25px;
+    object-fit: contain;
 }
 
 body#main {
@@ -370,6 +372,7 @@ span.position {
     display: inline-block;
     width: 5%;
     color: rgb(254, 244, 161);
+    vertical-align: top;
 }
 
 img.logo {
@@ -384,6 +387,9 @@ span.name {
     display: inline-block;
     width: 38%;
     padding-left: 1%;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: scroll;
 }
 
 span.time {
@@ -391,12 +397,14 @@ span.time {
     width: 28%;
     text-align: right;
     color: rgba(143, 0, 0, 0.72);
+    vertical-align: top;
 }
 span.score {
     display: inline-block;
     width: 15%;
     text-align: right;
 	color: rgba(143, 0, 0, 0.72);
+    vertical-align: top;
 }
 
 .scrollable {
