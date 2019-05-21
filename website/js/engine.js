@@ -22,7 +22,7 @@ const jack_dead_audios = ['j-die-1.opus','j-die-2.opus','j-die-3.opus','j-die-4.
 const jack_eat_audios = ['j-eat-1.opus','j-eat-2.opus','j-eat-3.opus','j-eat-4.opus','j-eat-5.opus','j-eat-6.opus']
 const jack_select_audios = ['j-select-1.opus','j-select-2.opus','j-select-3.opus','j-select-4.opus']
 const katie_dead_audios = ['k-die-1.opus','k-die-2.opus','k-die-3.opus','k-die-4.opus']
-const katie_eat_audios = ['k-eat-1.opus','k-eat-2.opus','k-eat-3.opus','k-eat-4.opus']
+const katie_eat_audios = ['k-eat-3.opus','k-eat-4.opus','k-eat-5.ogg','k-eat-6.ogg']
 const katie_select_audios = ['k-select-1.opus','k-select-2.opus','k-select-3.opus']
 
 function ricky_dead(){
